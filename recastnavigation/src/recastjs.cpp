@@ -1418,3 +1418,25 @@ NavPath Crowd::getCorners(const int idx)
     }
     return navpath;
 }
+
+void RecastConfigHelper::destroy() {}
+
+void RecastConfigHelper::setBMAX(rcConfig& cfg, float x, float y, float z) {
+    cfg.bmax[0] = x;
+    cfg.bmax[1] = y;
+    cfg.bmax[2] = z;
+}
+
+void RecastConfigHelper::setBMIN(rcConfig& cfg, float x, float y, float z) {
+    cfg.bmin[0] = x;
+    cfg.bmin[1] = y;
+    cfg.bmin[2] = z;
+}
+
+Vec3 RecastConfigHelper::getBMAX(rcConfig& cfg) {
+    return Vec3(cfg.bmax[0], cfg.bmax[1], cfg.bmax[2]);
+}
+
+Vec3 RecastConfigHelper::getBMIN(rcConfig& cfg) {
+    return Vec3(cfg.bmin[0], cfg.bmin[1], cfg.bmin[2]);
+}

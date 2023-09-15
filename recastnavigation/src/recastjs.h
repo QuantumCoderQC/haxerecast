@@ -284,3 +284,94 @@ protected:
     dtCrowd *m_crowd;
     Vec3 m_defaultQueryExtent;
 };
+
+class RecastConfigHelper
+{
+public:
+    RecastConfigHelper() {};
+    void destroy();
+    void setBMAX(rcConfig& cfg, float x, float y, float z);
+    void setBMIN(rcConfig& cfg, float x, float y, float z);
+    Vec3 getBMAX(rcConfig& cfg);
+    Vec3 getBMIN(rcConfig& cfg);
+};
+
+class rcFloatArray {
+
+	int count = 0;
+
+	public:
+
+		float *raw;
+
+		rcFloatArray(int num) {
+
+			raw = (float *) malloc(sizeof(float) * num);
+			count = num;
+		}
+
+		~rcFloatArray() {
+
+			free(raw);
+		}
+
+		float at(int pos) {
+
+			return raw[pos];
+		}
+
+		int set(int pos, float value) {
+
+			if(pos < count){
+				raw[pos] = value;
+				return 0;
+			}
+
+			return 1;
+		}
+
+		int size() {
+			return count;
+		}
+};
+
+class rcIntArray {
+
+	int count = 0;
+
+	public:
+
+		int *raw;
+
+		rcIntArray(int num) {
+
+			raw = (int *) malloc(sizeof(int) * num);
+			count = num;
+		}
+
+		~rcIntArray() {
+
+			free(raw);
+		}
+
+		float at(int pos) {
+
+			return raw[pos];
+		}
+
+		int set(int pos, int value) {
+
+			if(pos < count){
+				raw[pos] = value;
+				return 0;
+			}
+
+			return 1;
+		}
+
+		int size() {
+			return count;
+		}
+};
+
+
