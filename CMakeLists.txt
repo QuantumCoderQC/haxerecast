@@ -6,20 +6,20 @@ set(PYTHON ${Python3_EXECUTABLE} CACHE STRING "Python path")
 set(EMSCRIPTEN_ROOT $ENV{EMSDK}/upstream/emscripten CACHE STRING "Emscripten path")
 set(CMAKE_TOOLCHAIN_FILE ${EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
 set(WEBIDL_BINDER_SCRIPT ${EMSCRIPTEN_ROOT}/tools/webidl_binder.py)
-set(RECAST_IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/recast.idl)
-set(RECASTAPI_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/recastjs.h)
+set(RECAST_IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/hl/recast.idl)
+set(RECASTAPI_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/src/recastjs.h)
 set(RECAST_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/Recast/Include/Recast.h)
 set(NAVMESHQUERY_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/Detour/Include/DetourNavMeshQuery.h)
-set(RECAST_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/)
-set(RECAST_ONLOAD_FILE ${CMAKE_CURRENT_SOURCE_DIR}/onload.js)
+set(RECAST_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/src/)
+set(RECAST_ONLOAD_FILE ${CMAKE_CURRENT_SOURCE_DIR}/recastjs/onload.js)
 
 project (recastjs)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_FILES
-    ${CMAKE_SOURCE_DIR}/src/*.h
-    ${CMAKE_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_SOURCE_DIR}/recastnavigation/src/*.h
+    ${CMAKE_SOURCE_DIR}/recastnavigation/src/*.cpp
 )
 file(GLOB RECASTDETOUR_FILES
     ${CMAKE_SOURCE_DIR}/recastnavigation/Detour/Source/DetourAlloc.cpp
@@ -53,7 +53,7 @@ file(GLOB RECASTDETOUR_FILES
 )
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/src
+  ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/src
   ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/Detour/Include
   ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/DetourCrowd/Include
   ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation/DetourTileCache/Include
@@ -164,13 +164,3 @@ add_custom_command(
   COMMENT "Building ${EXE_NAME} webassembly"
   VERBATIM)
 add_custom_target(${EXE_NAME}-wasm ALL DEPENDS ${EXE_NAME}.wasm.js ${EXE_NAME}.wasm.wasm)
-
-#######################################
-# ES6
-add_custom_command(
-  OUTPUT ${EXE_NAME}.es6.js
-  COMMAND emcc glue.o lib${EXE_NAME}.a ${EMCC_JS_ES6ARGS} -o ${EXE_NAME}.es6.js
-  DEPENDS ${EXE_NAME}-bindings ${EXE_NAME} ${RECAST_ONLOAD_FILE}
-  COMMENT "Building ${EXE_NAME} ES6 javascript"
-  VERBATIM)
-add_custom_target(${EXE_NAME}-es6 ALL DEPENDS ${EXE_NAME}.es6.js)
