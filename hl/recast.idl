@@ -121,17 +121,17 @@ interface dtCrowdAgentParams {
     attribute float separationWeight;
 
     /// Flags that impact steering behavior. (See: #UpdateFlags)
-    attribute octet updateFlags;
+    attribute long updateFlags;
 
     /// The index of the avoidance configuration to use for the agent. 
     /// [Limits: 0 <= value <= #DT_CROWD_MAX_OBSTAVOIDANCE_PARAMS]
-    attribute octet obstacleAvoidanceType;    
+    attribute long obstacleAvoidanceType;    
 
     /// The index of the query filter used by this agent.
-    attribute octet queryFilterType;
+    attribute long queryFilterType;
 
     /// User defined data attached to the agent.
-    attribute VoidPtr userData;
+    //attribute VoidPtr userData;
 };
 
 interface NavMesh {
