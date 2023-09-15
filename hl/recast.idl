@@ -177,3 +177,27 @@ interface Crowd {
     [Value] NavPath getCorners([Const] long idx);
 };
 
+interface RecastConfigHelper {
+    void RecastConfigHelper();
+    void setBMAX([Ref] rcConfig config, [Const] float x, [Const] float y, [Const] float z);
+    void setBMIN([Ref] rcConfig config, [Const] float x, [Const] float y, [Const] float z);
+    [Value] Vec3 getBMAX([Ref] rcConfig config);
+    [Value] Vec3 getBMIN([Ref] rcConfig config);
+};
+
+interface rcFloatArray {
+	attribute float[] raw;
+	void rcFloatArray(long num);
+	[Const] long size();
+	[Const] float at(long n);
+	[Const] long set(long n, float value);
+};
+
+interface rcIntArray {
+	attribute long[] raw;
+	void rcIntArray(long num);
+	[Const] long size();
+	[Const] long at(long n);
+	[Const] long set(long n, long value);
+};
+
