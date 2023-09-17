@@ -1,10 +1,14 @@
 // Recast Navigation for Haxe
 // https://github.com/recastnavigation/recastnavigation
 
-package haxerecast;
+package recast;
+
+#if hl
+typedef Recast = haxe.macro.MacroType<[webidl.Module.build({ idlFile : "Sources/recast/recast.idl", autoGC : false, nativeLib : "recast" })]>;
+#else
 
 @:native('Recast.rcConfig')
-extern class RecastConfig {
+extern class RcConfig {
 	public function new():Void;
 
 	/// The width of the field along the x-axis. [Limit: >= 0] [Units: vx]
@@ -73,7 +77,7 @@ extern class RecastConfig {
 }
 
 @:native('Recast.Vec3')
-extern class RecastVec3 {
+extern class Vec3 {
 	public function new(x:Float, y:Float, z:Float):Void;
 	public var x:Float;
 	public var y:Float;
@@ -81,43 +85,43 @@ extern class RecastVec3 {
 }
 
 @:native('Recast.Triangle')
-extern class RecastTriangle {
+extern class Triangle {
 	public function new():Void;
-	public function getPoint(n:Int):RecastVec3;
+	public function getPoint(n:Int):Vec3;
 }
 
 @:native('Recast.DebugNavMesh')
-extern class RecastDebugNavMesh {
+extern class DebugNavMesh {
 	public function new():Void;
 	public function getTriangleCount():Int;
-	public function getTriangle(n:Int):RecastTriangle;
+	public function getTriangle(n:Int):Triangle;
 }
 
 @:native('Recast.dtNavMesh')
-extern class RecastDtNavMesh {
+extern class DtNavMesh {
 
 }
 
 @:native('Recast.NavmeshData')
-extern class RecastNavmeshData {
+extern class NavmeshData {
     public function new():Void;
     public var dataPointer:Dynamic;
     public var size:Int;
 }
 
 @:native('Recast.NavPath')
-extern class RecastNavPath {
+extern class NavPath {
     public function getPointCount():Int;
-    public function getPoint(n:Int):RecastVec3;
+    public function getPoint(n:Int):Vec3;
 }
 
 @:native('Recast.dtObstacleRef')
-extern class RecastObstacle {
+extern class DtObstacleRef {
 	
 }
 
 @:native('Recast.dtCrowdAgentParams')
-extern class RecastCrowdAgentParams {
+extern class DtCrowdAgentParams {
     public function new():Void;
 	///< Agent radius. [Limit: >= 0]
     public var  radius:Float;
@@ -152,60 +156,60 @@ extern class RecastCrowdAgentParams {
 }
 
 @:native('Recast.NavMesh')
-extern class RecastNavMesh {
+extern class NavMesh {
 	public function new():Void;
 	public function destroy():Void;
-	public function build(positions:haxe.ds.Vector<Float>, positionCount:Int, indices:haxe.ds.Vector<Int>, indexCount:Int, config: RecastConfig):Void;
-	public function buildFromNavmeshData(data:RecastNavmeshData):Void;
-	public function getNavmeshData():RecastNavmeshData;
-	public function freeNavmeshData(data:RecastNavmeshData):Void;
-	public function getDebugNavMesh():RecastDebugNavMesh;
-	public function getClosestPoint(position:RecastVec3):RecastVec3;
-	public function getRandomPointAround(position:RecastVec3, maxRadius:Float):RecastVec3;
-	public function moveAlong(position:RecastVec3, destination:RecastVec3):RecastVec3;
-	public function getNavMesh():RecastDtNavMesh;
-	public function computePath(start:RecastVec3, end:RecastVec3):RecastNavPath;
-	public function setDefaultQueryExtent(extent:RecastVec3):Void;
-	public function getDefaultQueryExtent():RecastVec3;
+	public function build(positions:haxe.ds.Vector<Float>, positionCount:Int, indices:haxe.ds.Vector<Int>, indexCount:Int, config: RcConfig):Void;
+	public function buildFromNavmeshData(data:NavmeshData):Void;
+	public function getNavmeshData():NavmeshData;
+	public function freeNavmeshData(data:NavmeshData):Void;
+	public function getDebugNavMesh():DebugNavMesh;
+	public function getClosestPoint(position:Vec3):Vec3;
+	public function getRandomPointAround(position:Vec3, maxRadius:Float):Vec3;
+	public function moveAlong(position:Vec3, destination:Vec3):Vec3;
+	public function getNavMesh():DtNavMesh;
+	public function computePath(start:Vec3, end:Vec3):NavPath;
+	public function setDefaultQueryExtent(extent:Vec3):Void;
+	public function getDefaultQueryExtent():Vec3;
 	
-	public function addCylinderObstacle(position:RecastVec3, radius:Float, height:Float):RecastObstacle;
-	public function addBoxObstacle(position:RecastVec3, extent:RecastVec3, angle:Float):RecastObstacle;
-	public function removeObstacle(obstacle:RecastObstacle):Void;
+	public function addCylinderObstacle(position:Vec3, radius:Float, height:Float):DtObstacleRef;
+	public function addBoxObstacle(position:Vec3, extent:Vec3, angle:Float):DtObstacleRef;
+	public function removeObstacle(obstacle:DtObstacleRef):Void;
 	public function update():Void;
 }
 
 @:native('Recast.Crowd')
-extern class RecastCrowd {
-    public function new(maxAgents:Int, maxAgentRadius:Float, nav:RecastDtNavMesh);
+extern class Crowd {
+    public function new(maxAgents:Int, maxAgentRadius:Float, nav:DtNavMesh);
     public function destroy():Void;
-    public function addAgent(position:RecastVec3, params:RecastCrowdAgentParams):Int;
+    public function addAgent(position:Vec3, params:DtCrowdAgentParams):Int;
     public function removeAgent(idx:Int):Void;
     public function update(dt:Float):Void;
-    public function getAgentVelocity(idx:Int):RecastVec3;
-    public function getAgentNextTargetPath(idx:Int):RecastVec3;
-    public function getAgentPosition(idx:Int):RecastVec3;
+    public function getAgentVelocity(idx:Int):Vec3;
+    public function getAgentNextTargetPath(idx:Int):Vec3;
+    public function getAgentPosition(idx:Int):Vec3;
     public function getAgentState(idx:Int):Int;
     public function overOffmeshConnection(idx:Int):Bool;
-    public function agentGoto(idx:Int, destination:RecastVec3):Void;
-    public function agentTeleport(idx:Int, destination:RecastVec3):Void;
-    public function getAgentParameters(idx:Int):RecastCrowdAgentParams;
-    public function setAgentParameters(idx:Int, params:RecastCrowdAgentParams):Void;
-    public function setDefaultQueryExtent(extent:RecastVec3):Void;
-    public function getDefaultQueryExtent():RecastVec3;
-    public function getCorners(idx:Int):RecastNavPath;
+    public function agentGoto(idx:Int, destination:Vec3):Void;
+    public function agentTeleport(idx:Int, destination:Vec3):Void;
+    public function getAgentParameters(idx:Int):DtCrowdAgentParams;
+    public function setAgentParameters(idx:Int, params:DtCrowdAgentParams):Void;
+    public function setDefaultQueryExtent(extent:Vec3):Void;
+    public function getDefaultQueryExtent():Vec3;
+    public function getCorners(idx:Int):NavPath;
 }
 
 @:native('Recast.RecastConfigHelper')
 extern class RecastConfigHelper {
 	public function new():Void;
-	public function setBMAX(config:RecastConfig, x: Float, y:Float, z:Float):Void;
-	public function getBMAX(config:RecastConfig):RecastVec3;
-	public function setBMIN(config:RecastConfig, x: Float, y:Float, z:Float):Void;
-	public function getBMIN(config:RecastConfig):RecastVec3;
+	public function setBMAX(config:RcConfig, x: Float, y:Float, z:Float):Void;
+	public function getBMAX(config:RcConfig):Vec3;
+	public function setBMIN(config:RcConfig, x: Float, y:Float, z:Float):Void;
+	public function getBMIN(config:RcConfig):Vec3;
 }
 
 @:native('Recast.rcIntArray')
-extern class RecastIntArray {
+extern class RcIntArray {
 	public function new(num:Int):Void;
 	public function get_raw():Dynamic;
 	public function size():Int;
@@ -214,7 +218,7 @@ extern class RecastIntArray {
 }
 
 @:native('Recast.rcFloatArray')
-extern class RecastFloatArray {
+extern class RcFloatArray {
 	public function new(num:Int):Void;
 	public function get_raw():Dynamic;
 	public function set_raw(raw:Dynamic):Void;
@@ -222,3 +226,5 @@ extern class RecastFloatArray {
 	public function at(n:Int):Float;
 	public function set(n:Int, value:Float):Void;
 }
+
+#end
