@@ -168,26 +168,6 @@ HL_PRIM float HL_NAME(rcConfig_set_ch)( _ref(rcConfig)* _this, float value ) {
 DEFINE_PRIM(_F32,rcConfig_get_ch,_IDL);
 DEFINE_PRIM(_F32,rcConfig_set_ch,_IDL _F32);
 
-HL_PRIM float* HL_NAME(rcConfig_get_bmin)( _ref(rcConfig)* _this ) {
-	return _unref(_this)->bmin;
-}
-HL_PRIM float* HL_NAME(rcConfig_set_bmin)( _ref(rcConfig)* _this, float* value ) {
-	_unref(_this)->bmin = (value);
-	return value;
-}
-DEFINE_PRIM(_BYTES,rcConfig_get_bmin,_IDL);
-DEFINE_PRIM(_BYTES,rcConfig_set_bmin,_IDL _BYTES);
-
-HL_PRIM float* HL_NAME(rcConfig_get_bmax)( _ref(rcConfig)* _this ) {
-	return _unref(_this)->bmax;
-}
-HL_PRIM float* HL_NAME(rcConfig_set_bmax)( _ref(rcConfig)* _this, float* value ) {
-	_unref(_this)->bmax = (value);
-	return value;
-}
-DEFINE_PRIM(_BYTES,rcConfig_get_bmax,_IDL);
-DEFINE_PRIM(_BYTES,rcConfig_set_bmax,_IDL _BYTES);
-
 HL_PRIM float HL_NAME(rcConfig_get_walkableSlopeAngle)( _ref(rcConfig)* _this ) {
 	return _unref(_this)->walkableSlopeAngle;
 }
