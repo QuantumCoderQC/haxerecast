@@ -1,4 +1,5 @@
 #pragma once
+#include "../Recast/Include/Recast.h"
 #include "../Detour/Include/DetourNavMesh.h"
 #include "../Detour/Include/DetourCommon.h"
 #include "../Detour/Include/DetourNavMeshBuilder.h"
@@ -27,15 +28,15 @@ struct Vec3
     Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
     void isMinOf(const Vec3& v)
     {
-        x = std::min(x, v.x);
-        y = std::min(y, v.y);
-        z = std::min(z, v.z);
+        x = (std::min)(x, v.x);
+        y = (std::min)(y, v.y);
+        z = (std::min)(z, v.z);
     }
     void isMaxOf(const Vec3& v)
     {
-        x = std::max(x, v.x);
-        y = std::max(y, v.y);
-        z = std::max(z, v.z);
+        x = (std::max)(x, v.x);
+        y = (std::max)(y, v.y);
+        z = (std::max)(z, v.z);
     }
     float operator [](int index) {
         return ((float*)&x)[index];
