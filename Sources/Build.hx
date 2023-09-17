@@ -8,7 +8,7 @@ class Build {
 		idlFile : "./recast/recast.idl",
 		nativeLib : "recast",
 		includeCode : "#include \"recastjs.h\"",
-		autoGC : true,
+		autoGC : false,
 		outputDir : "../build/",
 	};
 
