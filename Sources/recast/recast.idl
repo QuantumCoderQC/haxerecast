@@ -20,10 +20,10 @@ interface rcConfig {
     attribute float ch;
 
     /// The minimum bounds of the field's AABB. [(x, y, z)] [Units: wu]
-    attribute float[] bmin; 
+    //attribute float[] bmin;
 
     /// The maximum bounds of the field's AABB. [(x, y, z)] [Units: wu]
-    attribute float[] bmax;
+    //attribute float[] bmax;
 
     /// The maximum slope that is considered walkable. [Limits: 0 <= value < 90] [Units: Degrees] 
     attribute float walkableSlopeAngle;
