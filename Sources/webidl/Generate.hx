@@ -173,7 +173,7 @@ template<typename T> pref<T> *_alloc_const( const T *value ) {
 			case TInt: "int";
 			case TVoid: "void";
 			case TAny, TVoidPtr: "void*";
-			case TArray(t): makeType(t) + "[]";
+			case TArray(t): makeType(t) + "*";
 			case TBool: "bool";
 			case TCustom(id): typeNames.get(id).full;
 			}
@@ -233,15 +233,10 @@ template<typename T> pref<T> *_alloc_const( const T *value ) {
 						var first = true;
 						for( a in args ) {
 							if( first ) first = false else output.add(", ");
-							switch( a.t.t ) {
-							case TArray(t):
-								output.add(makeType(t) + "*");
-							default:
-								if( isDyn(a) )
-									output.add("_OPT("+makeType(a.t.t)+")");
-								else
-									output.add(makeType(a.t.t));
-							}
+							if( isDyn(a) )
+								output.add("_OPT("+makeType(a.t.t)+")");
+							else
+								output.add(makeType(a.t.t));
 							output.add(" " + a.name);
 						}
 						add(') {');
