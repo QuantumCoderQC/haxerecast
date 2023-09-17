@@ -20,37 +20,12 @@
 #define _IDL _BYTES
 #define _OPT(t) vdynamic *
 #define _GET_OPT(value,t) (value)->v.t
-template <typename T> struct pref {
-	void *finalize;
-	T *value;
-};
-
-#define _ref(t) pref<t>
-#define _unref(v) v->value
-#define alloc_ref(r,t) _alloc_ref(r,finalize_##t)
-#define alloc_ref_const(r, _) _alloc_const(r)
-#define HL_CONST
-
-template<typename T> void free_ref( pref<T> *r ) {
-	if( !r->finalize ) hl_error("delete() is not allowed on const value.");
-	delete r->value;
-	r->value = NULL;
-	r->finalize = NULL;
-}
-
-template<typename T> pref<T> *_alloc_ref( T *value, void (*finalize)( pref<T> * ) ) {
-	pref<T> *r = (pref<T>*)hl_gc_alloc_finalizer(sizeof(pref<T>));
-	r->finalize = finalize;
-	r->value = value;
-	return r;
-}
-
-template<typename T> pref<T> *_alloc_const( const T *value ) {
-	pref<T> *r = (pref<T>*)hl_gc_alloc_noptr(sizeof(pref<T>));
-	r->finalize = NULL;
-	r->value = (T*)value;
-	return r;
-}
+#define alloc_ref(r, _) r
+#define alloc_ref_const(r,_) r
+#define _ref(t)			t
+#define _unref(v)		v
+#define free_ref(v) delete (v)
+#define HL_CONST const
 
 #endif
 
@@ -193,20 +168,20 @@ HL_PRIM float HL_NAME(rcConfig_set_ch)( _ref(rcConfig)* _this, float value ) {
 DEFINE_PRIM(_F32,rcConfig_get_ch,_IDL);
 DEFINE_PRIM(_F32,rcConfig_set_ch,_IDL _F32);
 
-HL_PRIM float[] HL_NAME(rcConfig_get_bmin)( _ref(rcConfig)* _this ) {
+HL_PRIM float* HL_NAME(rcConfig_get_bmin)( _ref(rcConfig)* _this ) {
 	return _unref(_this)->bmin;
 }
-HL_PRIM float[] HL_NAME(rcConfig_set_bmin)( _ref(rcConfig)* _this, float[] value ) {
+HL_PRIM float* HL_NAME(rcConfig_set_bmin)( _ref(rcConfig)* _this, float* value ) {
 	_unref(_this)->bmin = (value);
 	return value;
 }
 DEFINE_PRIM(_BYTES,rcConfig_get_bmin,_IDL);
 DEFINE_PRIM(_BYTES,rcConfig_set_bmin,_IDL _BYTES);
 
-HL_PRIM float[] HL_NAME(rcConfig_get_bmax)( _ref(rcConfig)* _this ) {
+HL_PRIM float* HL_NAME(rcConfig_get_bmax)( _ref(rcConfig)* _this ) {
 	return _unref(_this)->bmax;
 }
-HL_PRIM float[] HL_NAME(rcConfig_set_bmax)( _ref(rcConfig)* _this, float[] value ) {
+HL_PRIM float* HL_NAME(rcConfig_set_bmax)( _ref(rcConfig)* _this, float* value ) {
 	_unref(_this)->bmax = (value);
 	return value;
 }
@@ -728,10 +703,10 @@ HL_PRIM _ref(Vec3)* HL_NAME(RecastConfigHelper_getBMIN1)(_ref(RecastConfigHelper
 }
 DEFINE_PRIM(_IDL, RecastConfigHelper_getBMIN1, _IDL _IDL);
 
-HL_PRIM float[] HL_NAME(rcFloatArray_get_raw)( _ref(rcFloatArray)* _this ) {
+HL_PRIM float* HL_NAME(rcFloatArray_get_raw)( _ref(rcFloatArray)* _this ) {
 	return _unref(_this)->raw;
 }
-HL_PRIM float[] HL_NAME(rcFloatArray_set_raw)( _ref(rcFloatArray)* _this, float[] value ) {
+HL_PRIM float* HL_NAME(rcFloatArray_set_raw)( _ref(rcFloatArray)* _this, float* value ) {
 	_unref(_this)->raw = (value);
 	return value;
 }
@@ -758,10 +733,10 @@ HL_PRIM HL_CONST int HL_NAME(rcFloatArray_set2)(_ref(rcFloatArray)* _this, int n
 }
 DEFINE_PRIM(_I32, rcFloatArray_set2, _IDL _I32 _F32);
 
-HL_PRIM int[] HL_NAME(rcIntArray_get_raw)( _ref(rcIntArray)* _this ) {
+HL_PRIM int* HL_NAME(rcIntArray_get_raw)( _ref(rcIntArray)* _this ) {
 	return _unref(_this)->raw;
 }
-HL_PRIM int[] HL_NAME(rcIntArray_set_raw)( _ref(rcIntArray)* _this, int[] value ) {
+HL_PRIM int* HL_NAME(rcIntArray_set_raw)( _ref(rcIntArray)* _this, int* value ) {
 	_unref(_this)->raw = (value);
 	return value;
 }
