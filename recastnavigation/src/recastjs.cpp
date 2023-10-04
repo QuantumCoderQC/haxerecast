@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <math.h>
 #include <sstream>
+#include <cstring>
 
 void Log(const char* str)
 {
