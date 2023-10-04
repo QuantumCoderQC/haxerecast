@@ -44,6 +44,9 @@ Recast/Detour can be difficult to use directly. A simplification layer is done t
 Basically, that file lists all the structures, classes, methods visible to JS. The glue generation and build is handled ny make.py script. Any new functionnality should be written in recastjs.cpp file and exposed by the IDL
 For more information on Web IDL : https://emscripten.org/docs/porting/connecting_cpp_and_javascript/WebIDL-Binder.html
 
+## Initial Commit
+ The initial commit was created from https://github.com/BabylonJS/Extensions/tree/734bc19abb04d6c38b6ffcc8a788aac08e14c8af/recastjs
+ 
 ## License
 
 Recastjs is licensed under the same terms as Recastnavigation. 
