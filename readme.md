@@ -12,7 +12,6 @@ The crowd management module provides you with features for agents handling and b
 
 ## How to build recastjs and haxerecast?
 
-First, update the Git Submodule using `git submodule update --init` in the recastjs folder.
 You'll need emscripten with an active environment and mingw32-make for Windows (make for Linux). 
 You'll also need Haxe and haxelib webidl installed for HL(cpp) build.
 
